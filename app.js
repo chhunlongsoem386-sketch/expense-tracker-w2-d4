@@ -63,6 +63,59 @@ function render() {
 
 render();
 
+// Listen for the expense form submission
+const formEl = document.querySelector("#expense-form");
+
+const messageEl = document.querySelector("#form-message");
+
+formEl.addEventListener("submit", (event) => {
+    // Stop the browser from reloading
+    event.preventDefault();
+
+    // Get the values entered by the user
+    const note = document.querySelector("#note").value.trim();
+
+    const amount = document.querySelector("#amount").value;
+
+    const category = document.querySelector("#category").value;
+
+    // Convert dollars into whole cents
+    const amountCents = Math.round(Number(amount) * 100);
+
+    // Clear previous error messages
+    messageEl.textContent = "";
+
+    // Check if the note is empty
+    if (note === "") {
+        messageEl.textContent = "Please enter a note.";
+        return;
+    }
+
+    // Check if the amount is valid
+    if (amount.trim() === "" || !Number.isFinite(amountCents) || amountCents <= 0) {
+        messageEl.textContent = "Please enter an amount greater than zero.";
+        return;
+    }
+
+    // Create a new expense transaction
+    const newTransaction = {
+        id: Date.now(),
+        note: note,
+        category: category,
+        type: "expense",
+        amountCents: amountCents
+    };
+
+    // Add the transaction to our data
+    transactions = addTransaction(transactions, newTransaction);
+
+    // Update the webpage
+    render();
+
+    // Clear the form
+    formEl.reset();
+});
+
 // Display transactions on the webpage
 function renderTransactions(list) {
     const listEl = document.querySelector("#transaction-list");
