@@ -68,7 +68,11 @@ They disappear when the webpage is refreshed.
 
 ## GitHub Repository
 
-https://github.com/chhunlongsoem386-sketch/expense-tracker-w2-d4
+[View Source Code](https://github.com/chhunlongsoem386-sketch/expense-tracker-w2-d4)
+
+## Live Demo
+
+[Open Expense Tracker](https://chhunlongsoem386-sketch.github.io/expense-tracker-w2-d4/)
 
 ## Author
 
