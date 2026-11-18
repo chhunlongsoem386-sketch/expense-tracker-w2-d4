@@ -4,8 +4,8 @@ const sampleTransactions = [
   { id: 3, note: "Bus", category: "Transport", type: "expense", amountCents: 150 },
   { id: 4, note: "Notebook", category: "Study", type: "expense", amountCents: 300 },
 ];
-// Data used to display transactions on the webpage
-let transactions = sampleTransactions;
+// Start with an empty list; fetch() will load the data later.
+let transactions = [];
 
 function formatMoney(cents) {
   const sign = cents < 0 ? "-" : "";
@@ -61,7 +61,6 @@ function render() {
         renderTransactions(transactions);
 }
 
-render();
 
 // Listen for the expense form submission
 const formEl = document.querySelector("#expense-form");
@@ -180,3 +179,26 @@ check("total expenses", totalExpenses(sampleTransactions), 900);
 check("total of empty list", totalCents([]), 0);
 check("total expenses of empty list", totalExpenses([]), 0);
 check("original list not changed", sampleTransactions.length, 4); // after addTransaction
+
+// Load transaction data from the JSON file
+async function loadTransactions() {
+    const response = await fetch("transactions.json");
+
+    if (!response.ok) {
+        throw new Error("Failed to load transactions");
+    }
+
+    return await response.json();
+}
+
+// Load JSON data and display it on the webpage
+async function start() {
+    try {
+        transactions = await loadTransactions();
+        render();
+    } catch (error) {
+        messageEl.textContent = error.message;
+    }
+}
+
+start();
